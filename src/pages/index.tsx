@@ -2,8 +2,14 @@ import Head from "next/head";
 import { Box, Flex } from "@chakra-ui/react";
 import Background from "@/components/Background";
 import Welcome from "@/components/Welcome";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [modal, setModal] = useState("");
+
+  useEffect(() => {
+    console.log(modal)
+  }, [modal])
   return (
     <>
       <Head>
@@ -20,7 +26,7 @@ export default function Home() {
           alignItems={"center"}
         >
           <Background>
-            <Welcome />
+            <Welcome setModal={ setModal} />
           </Background>
         </Flex>
       </Box>
