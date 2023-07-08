@@ -3,13 +3,16 @@ import { Box, Flex } from "@chakra-ui/react";
 import Background from "@/components/Background";
 import Welcome from "@/components/Welcome";
 import { useEffect, useState } from "react";
+import SingleAuth from "@/modules/auth/SingleAuth";
+import Board from "@/modules/board/Board";
 
 export default function Home() {
   const [modal, setModal] = useState("");
+  const [player1, setPlayer1] = useState("");
 
   useEffect(() => {
-    console.log(modal)
-  }, [modal])
+    console.log(modal);
+  }, [modal]);
   return (
     <>
       <Head>
@@ -26,9 +29,16 @@ export default function Home() {
           alignItems={"center"}
         >
           <Background>
-            <Welcome setModal={ setModal} />
+            <Welcome setModal={setModal} />
           </Background>
         </Flex>
+
+        <SingleAuth
+          setName={setPlayer1}
+          isOpen={modal === "single"}
+          onClose={setModal}
+        />
+        <Board isOpen={modal === "board"} onClose={setModal} />
       </Box>
     </>
   );
