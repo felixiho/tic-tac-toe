@@ -8,7 +8,7 @@ import Board from "@/modules/board/Board";
 
 export default function Home() {
   const [modal, setModal] = useState("");
-  const [player1, setPlayer1] = useState("");
+  const [player, setPlayer] = useState("");
 
   useEffect(() => {
     console.log(modal);
@@ -34,11 +34,11 @@ export default function Home() {
         </Flex>
 
         <SingleAuth
-          setName={setPlayer1}
+          setName={setPlayer}
           isOpen={modal === "single"}
           onClose={setModal}
         />
-        <Board isOpen={modal === "board"} onClose={setModal} />
+        <Board isOpen={modal === "board"} onClose={setModal} player={player} />
       </Box>
     </>
   );
