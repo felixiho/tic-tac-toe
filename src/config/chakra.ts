@@ -6,6 +6,7 @@ const theme = extendTheme({
   fonts: {
     heading: `pacifico, sans-serif`,
     body: `'Love Ya Like A Sister', sans-serif`,
+    roboto: 'roboto, sans-serif'
   },
   colors: {
     primary: {

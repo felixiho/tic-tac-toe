@@ -10,8 +10,15 @@ import {
   Input,
   Image,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Score from "./Score";
+import Layout from "./Layout";
+
+const initialBoard = [
+  [false, false, false],
+  [false, false, false],
+  [false, false, false],
+];
 
 const Board = ({
   isOpen,
@@ -22,7 +29,16 @@ const Board = ({
   onClose: any;
   player: string;
 }) => {
-  const [playerTurn, setPlayerTurn] = useState(false);
+  const [playerTurn, setPlayerTurn] = useState(true);
+  const [board, setBoard] = useState(initialBoard.flat());
+  const [winner, setWinner] = useState(false);
+
+  const resetBoard = () => {
+    setBoard(initialBoard.flat());
+    setPlayerTurn(true);
+    setWinner(false)
+  };
+
   return (
     <Modal
       isCentered
@@ -40,15 +56,22 @@ const Board = ({
             alt="back button"
             src="/back.png"
           />
-          <Image onClick={() => {}} alt="back button" src="/refresh.png" />
+          <Image onClick={resetBoard} alt="back button" src="/refresh.png" />
         </ModalHeader>
         <ModalBody>
           <Flex w="full" justifyContent={"center"} flexDir={"column"}>
-            <Box height={"326px"} bgColor="#f5f5f5">
-              
+            <Box height={"326px"}>
+              <Layout
+                playerTurn={playerTurn}
+                setWinner={setWinner}
+                setPlayerTurn={setPlayerTurn}
+                board={board}
+                setBoard={setBoard}
+                winner={winner}
+              />
             </Box>
           </Flex>
-          <Score player={player} isTurn={playerTurn} />
+          <Score player={player} isTurn={playerTurn} winner={winner} />
         </ModalBody>
       </ModalContent>
     </Modal>

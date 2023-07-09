@@ -1,3 +1,9 @@
 .chakra-modal__overlay{
   background: transparent !important;
 }
+
+.bamboo-parent{ 
+  background-image: url('../../public/grid.svg') ;
+  background-size: cover;
+  background-position-x: 36%;
+}
