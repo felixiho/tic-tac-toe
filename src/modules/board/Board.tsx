@@ -12,7 +12,7 @@ import {
   ImageProps,
   StyleProps,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Score from "./Score";
 import Layout from "./Layout";
 
@@ -31,29 +31,38 @@ const Board = ({
   onClose: any;
   player: string;
 }) => {
+  const initialScore = { X: 0, O: 0 }
   const [playerTurn, setPlayerTurn] = useState(true);
   const [board, setBoard] = useState(initialBoard.flat());
   const [winner, setWinner] = useState(false);
   const [winnerType, setWinnerType] = useState("");
   const [backgroundStyles, setBackgroundStyles] = useState<StyleProps>({});
-  const [score, setScore] = useState({X:0, O: 0})
+  const [score, setScore] = useState(initialScore);
+
+
   const resetBoard = () => {
     setBoard(initialBoard.flat());
     setPlayerTurn(true);
     setWinner(false);
+    setScore(initialScore)
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (winner) {
       const styles = getBackgroundStyles();
-      setBackgroundStyles(styles); 
+      setBackgroundStyles(styles);
     } else {
       setBackgroundStyles({});
     }
   }, [winner]);
 
+  const closeBoard = () => {
+    resetBoard();
+    onClose("single");
+  };
+
   const getBackgroundStyles = (): StyleProps => {
-    if (!winner || !winnerType) return {}; 
+    if (!winner || !winnerType) return {};
     switch (winnerType) {
       case "diagonal1":
         return {
@@ -123,11 +132,7 @@ const Board = ({
       <ModalOverlay />
       <ModalContent maxW={"342px"}>
         <ModalHeader display={"flex"} justifyContent={"space-between"}>
-          <Image
-            onClick={() => onClose("single")}
-            alt="back button"
-            src="/back.png"
-          />
+          <Image onClick={closeBoard} alt="back button" src="/back.png" />
           <Image onClick={resetBoard} alt="back button" src="/refresh.png" />
         </ModalHeader>
         <ModalBody>
@@ -145,7 +150,12 @@ const Board = ({
               />
             </Box>
           </Flex>
-          <Score score={score} player={player} isTurn={playerTurn} winner={winner} />
+          <Score
+            score={score}
+            player={player}
+            isTurn={playerTurn}
+            winner={winner}
+          />
         </ModalBody>
       </ModalContent>
     </Modal>

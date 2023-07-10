@@ -55,6 +55,7 @@ const SingleAuth = ({
               fontSize={"lg"}
               placeholder="Enter Name"
               mt={6}
+              value={playerName}
               onChange={(e) => setPlayerName(e.target.value)}
             />
             <Button
