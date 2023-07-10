@@ -9,10 +9,7 @@ import Board from "@/modules/board/Board";
 export default function Home() {
   const [modal, setModal] = useState("");
   const [player, setPlayer] = useState("");
-
-  useEffect(() => {
-    console.log(modal);
-  }, [modal]);
+ 
   return (
     <>
       <Head>

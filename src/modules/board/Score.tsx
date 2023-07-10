@@ -4,10 +4,12 @@ const Score = ({
   player,
   isTurn,
   winner,
+  score,
 }: {
   player: string;
   isTurn: boolean;
   winner: boolean | string;
+  score: any
 }) => {
   return (
     <Flex w="full" my={10} flexDir={"column"}>
@@ -28,7 +30,7 @@ const Score = ({
             {player}{" "}
           </Text>
           <Heading size={"2xl"} mt={2} textAlign={"center"}>
-            1
+            {score.X}
           </Heading>
         </Box>
         <Box w="50%">
@@ -37,7 +39,7 @@ const Score = ({
             Computer{" "}
           </Text>
           <Heading size={"2xl"} mt={2} textAlign={"center"}>
-            3
+            {score.O}
           </Heading>
         </Box>
       </Flex>

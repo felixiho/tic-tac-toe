@@ -9,6 +9,8 @@ import {
   ModalBody,
   Input,
   Image,
+  ImageProps,
+  StyleProps,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Score from "./Score";
@@ -32,11 +34,81 @@ const Board = ({
   const [playerTurn, setPlayerTurn] = useState(true);
   const [board, setBoard] = useState(initialBoard.flat());
   const [winner, setWinner] = useState(false);
-
+  const [winnerType, setWinnerType] = useState("");
+  const [backgroundStyles, setBackgroundStyles] = useState<StyleProps>({});
+  const [score, setScore] = useState({X:0, O: 0})
   const resetBoard = () => {
     setBoard(initialBoard.flat());
     setPlayerTurn(true);
-    setWinner(false)
+    setWinner(false);
+  };
+
+  useEffect(() => {
+    if (winner) {
+      const styles = getBackgroundStyles();
+      setBackgroundStyles(styles); 
+    } else {
+      setBackgroundStyles({});
+    }
+  }, [winner]);
+
+  const getBackgroundStyles = (): StyleProps => {
+    if (!winner || !winnerType) return {}; 
+    switch (winnerType) {
+      case "diagonal1":
+        return {
+          backgroundRepeat: "no-repeat",
+          backgroundImage: "diagonal1.png",
+        };
+      case "diagonal2":
+        return {
+          backgroundRepeat: "no-repeat",
+          backgroundImage: "diagonal2.png",
+          backgroundPosition: "64%",
+        };
+      case "row0":
+        return {
+          backgroundRepeat: "no-repeat",
+          backgroundImage: "horizontal.png",
+          backgroundPosition: "0 -9.3rem",
+        };
+      case "row1":
+        return {
+          backgroundRepeat: "no-repeat",
+          backgroundImage: "horizontal.png",
+          backgroundPosition: "0 -2.7rem",
+        };
+      case "row2":
+        return {
+          backgroundRepeat: "no-repeat",
+          backgroundImage: "horizontal.png",
+          backgroundPosition: "0 3.7rem",
+        };
+      case "col0":
+        return {
+          backgroundRepeat: "no-repeat",
+          backgroundImage: "vertical.png",
+          backgroundPosition: "-10rem 0",
+        };
+      case "col1":
+        return {
+          backgroundRepeat: "no-repeat",
+          backgroundImage: "vertical.png",
+          backgroundPosition: "-3.6rem 0",
+        };
+      case "col2":
+        return {
+          backgroundRepeat: "no-repeat",
+          backgroundImage: "vertical.png",
+          backgroundPosition: "3rem 0",
+        };
+
+      default:
+        break;
+    }
+    return {
+      backgroundRepeat: "no-repeat",
+    };
   };
 
   return (
@@ -60,7 +132,7 @@ const Board = ({
         </ModalHeader>
         <ModalBody>
           <Flex w="full" justifyContent={"center"} flexDir={"column"}>
-            <Box height={"326px"}>
+            <Box height={"326px"} {...backgroundStyles}>
               <Layout
                 playerTurn={playerTurn}
                 setWinner={setWinner}
@@ -68,10 +140,12 @@ const Board = ({
                 board={board}
                 setBoard={setBoard}
                 winner={winner}
+                setWinnerDimension={setWinnerType}
+                setScore={setScore}
               />
             </Box>
           </Flex>
-          <Score player={player} isTurn={playerTurn} winner={winner} />
+          <Score score={score} player={player} isTurn={playerTurn} winner={winner} />
         </ModalBody>
       </ModalContent>
     </Modal>
