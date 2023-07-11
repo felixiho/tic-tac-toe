@@ -34,7 +34,7 @@ const Score = ({
           </Heading>
         </Box>
         <Box w="50%">
-          <Image src="tiger.png" mx="auto" />
+          <Image src="tiger1.png" mx="auto" />
           <Text mt={2} fontSize={"xl"} textAlign={"center"}>
             Computer{" "}
           </Text>
