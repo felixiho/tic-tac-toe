@@ -40,11 +40,11 @@ const Board = ({
   const [score, setScore] = useState(initialScore);
 
 
-  const resetBoard = () => {
+  const resetBoard = (score?:boolean) => {
     setBoard(initialBoard.flat());
     setPlayerTurn(true);
     setWinner(false);
-    setScore(initialScore)
+    if (score) setScore(initialScore)
   };
 
   useLayoutEffect(() => {
@@ -57,7 +57,7 @@ const Board = ({
   }, [winner]);
 
   const closeBoard = () => {
-    resetBoard();
+    resetBoard(true);
     onClose("single");
   };
 
@@ -133,7 +133,7 @@ const Board = ({
       <ModalContent maxW={"342px"}>
         <ModalHeader display={"flex"} justifyContent={"space-between"}>
           <Image onClick={closeBoard} alt="back button" src="/back.png" />
-          <Image onClick={resetBoard} alt="back button" src="/refresh.png" />
+          <Image onClick={() => resetBoard()} alt="back button" src="/refresh.png" />
         </ModalHeader>
         <ModalBody>
           <Flex w="full" justifyContent={"center"} flexDir={"column"}>
