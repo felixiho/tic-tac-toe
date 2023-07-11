@@ -27,6 +27,11 @@ const SingleAuth = ({
       setName(playerName)
       onClose("board")
     }
+  } 
+
+  const closeModal = () => {
+    setPlayerName("")
+    onClose("")
   }
 
 
@@ -37,12 +42,13 @@ const SingleAuth = ({
       isOpen={isOpen}
       motionPreset="slideInBottom"
       size={"xs"}
+      closeOnOverlayClick={false}
     >
       <Overlay />
       <ModalOverlay />
       <ModalContent maxW={"256px"}>
         <ModalHeader>
-          <Image onClick={() => onClose("")} alt="back button" src="/back.png" />
+          <Image onClick={closeModal} alt="back button" src="/back.png" />
         </ModalHeader>
         <ModalBody>
           <Flex w="full" justifyContent={"center"} flexDir={"column"} px={4}>

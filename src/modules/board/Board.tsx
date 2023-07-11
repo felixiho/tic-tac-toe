@@ -127,6 +127,7 @@ const Board = ({
       isOpen={isOpen}
       motionPreset="slideInBottom"
       size={"sm"}
+      closeOnOverlayClick={false}
     >
       <Overlay />
       <ModalOverlay />
