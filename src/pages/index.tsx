@@ -5,11 +5,12 @@ import Welcome from "@/components/Welcome";
 import { useEffect, useState } from "react";
 import SingleAuth from "@/modules/auth/SingleAuth";
 import Board from "@/modules/board/Board";
+import MultiPlayer from "@/modules/multiplayer/index";
 
 export default function Home() {
   const [modal, setModal] = useState("");
   const [player, setPlayer] = useState("");
- 
+
   return (
     <>
       <Head>
@@ -36,6 +37,10 @@ export default function Home() {
           onClose={setModal}
         />
         <Board isOpen={modal === "board"} onClose={setModal} player={player} />
+        <MultiPlayer
+          modal={modal}
+          setModal={setModal}
+        />
       </Box>
     </>
   );
