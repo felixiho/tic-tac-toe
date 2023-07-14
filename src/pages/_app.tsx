@@ -49,15 +49,26 @@ if (typeof window !== "undefined") {
         Authorization: `Bearer ${localStorage.getItem("tickToken")}`,
       },
     },
-    
   });
 }
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const [code, setCode] = useState("");
+  const [startName, setStartName] = useState("");
+  const [joinName, setJoinName] = useState("");
   return (
     <ChakraProvider theme={theme}>
-      <PusherContext.Provider value={{ pusher, code, setCode }}>
+      <PusherContext.Provider
+        value={{
+          pusher,
+          code,
+          setCode,
+          startName,
+          setStartName,
+          joinName,
+          setJoinName,
+        }}
+      >
         <Component {...pageProps} />
       </PusherContext.Provider>
     </ChakraProvider>

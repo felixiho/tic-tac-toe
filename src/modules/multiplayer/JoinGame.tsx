@@ -5,29 +5,42 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader, 
+  ModalHeader,
   ModalBody,
   Input,
   Image,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { PusherContext } from "./Pusher";
+import { useState, useContext } from "react";
+import { joinGame } from "../api";
 
-const JoinGame = ({
-  isOpen,
-  onClose, 
-}: {
-  isOpen: boolean;
-  onClose: any 
-}) => { 
-  const [playerName, setPlayerName] = useState("")
-  const playGame = () => {
-    onClose("name")
-  } 
+const JoinGame = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
+  const multi = useContext(PusherContext);
+  const [playerCode, setPlayerCode] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const closeModal = () => { 
-    onClose("")
-  }
+  const playGame = async () => {
+    if (playerCode.length > 5 && multi) {
+      const { setCode, setStartName, pusher } = multi;
+      const response = await joinGame(playerCode);
+      setCode(playerCode);
+      setStartName(response.data.startName.start);
+      const channel = pusher.subscribe(`presence-${playerCode}`);
+      channel.bind("pusher:subscription_succeeded", (members: any) => {
+        if (members.count > 2) {
+          alert("Code already used. Please start a new game");
+          setLoading(false);
+        } else {
+          setLoading(false);
+          console.log("joined game");
+        }
+      });
+    }
+  };
 
+  const closeModal = () => {
+    onClose("");
+  };
 
   return (
     <Modal
@@ -55,8 +68,8 @@ const JoinGame = ({
               fontSize={"lg"}
               placeholder="Enter Code"
               mt={6}
-              value={playerName}
-              onChange={(e) => setPlayerName(e.target.value)}
+              value={playerCode}
+              onChange={(e) => setPlayerCode(e.target.value)}
             />
             <Button
               _hover={{ background: "#8FB01B" }}

@@ -5,6 +5,7 @@ import StartGame from "./StartGame";
 import Waiting from "./Waiting";
 import JoinGame from "./JoinGame";
 import SetName from "./SetName";
+import JoinName from "./JoinName";
 
 
 const MultiPlayer = ({
@@ -21,6 +22,7 @@ const MultiPlayer = ({
       <StartGame isOpen={modal === "start"} onClose={setModal} />
       <Waiting isOpen={modal === "waiting"} onClose={setModal} />
       <JoinGame  isOpen={modal === "join"} onClose={setModal} />
+      <JoinName  isOpen={modal === "join-name"} onClose={setModal} />
       <SetName  isOpen={modal === "name"} onClose={setModal} />
     </>
   );

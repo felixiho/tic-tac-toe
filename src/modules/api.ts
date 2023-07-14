@@ -14,3 +14,13 @@ export async function generateCode(): Promise<any> {
     }
   })
 }
+
+export async function joinGame(code:string): Promise<any> {
+  return await axios.post(`${baseURL}/join`, {
+    code
+  }, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("tickToken")}`,
+    }
+  })
+}

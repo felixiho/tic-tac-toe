@@ -7,5 +7,9 @@ export type PusherContextType =  {
   pusher: Pusher
   code: string
   setCode: (code: string) => void
+  startName: string
+  setStartName: (name: string) => void
+  joinName: string
+  setJoinName: (name: string) => void
 }
 export const PusherContext =  createContext<null |PusherContextType>(null)

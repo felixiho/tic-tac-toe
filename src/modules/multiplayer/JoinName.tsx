@@ -1,58 +1,50 @@
 import Overlay from "@/components/Overlay";
 import { Flex, Text, Box } from "@chakra-ui/layout";
-import Pusher from "pusher-js";
 import {
   Button,
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
+  ModalHeader, 
   ModalBody,
   Input,
   Image,
 } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
-import { generateCode, registerPlayer } from "../api";
+import { useState, useContext } from "react";
+import { registerPlayer } from "../api";
 import { PusherContext } from "./Pusher";
 
-const SetName = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
-  const [playerName, setPlayerName] = useState("");
+const JoinName = ({
+  isOpen,
+  onClose, 
+}: {
+  isOpen: boolean;
+  onClose: any 
+}) => { 
+  const [playerName, setPlayerName] = useState("")
   const [loading, setLoading] = useState(false);
   const multi = useContext(PusherContext);
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
 
-  const playGame = async () => {
+  const playGame = async() => {
     if (playerName.length > 2) {
       setLoading(true);
       const response = await registerPlayer(playerName);
       const token = response.data.token;
       localStorage.setItem("tickToken", token);
-      if (multi) {
-        const { pusher, setCode, setStartName } = multi;
-        const codeResponse = await generateCode();
-        const code = codeResponse.data.games.code as string;
-        setCode(code);
-        const channel = pusher.subscribe(`presence-${code}`);
-        channel.bind("pusher:subscription_succeeded", (members: any) => {
-          if (members.count > 2) {
-            alert("Code already used. Please start a new game");
-            setLoading(false);
-          } else {
-            setStartName(playerName);
-            setLoading(false);
-            onClose("waiting");
-          }
-        });
+      if(multi){
+        const {setJoinName} = multi
+        setJoinName(playerName)
       }
+      setLoading(false)
+      onClose("join")
     }
-  };
-  const closeModal = () => {
-    setPlayerName("");
-    onClose("");
-  };
+  } 
+
+  const closeModal = () => { 
+    onClose("")
+  }
+
 
   return (
     <Modal
@@ -72,7 +64,7 @@ const SetName = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
         <ModalBody>
           <Flex w="full" justifyContent={"center"} flexDir={"column"} px={4}>
             <Text fontSize={"lg"} fontWeight={"semibold"} textAlign={"center"}>
-              Set Name
+              Enter Name
             </Text>
             <Input
               _focusVisible={{ outline: "none" }}
@@ -93,7 +85,7 @@ const SetName = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
               onClick={playGame}
               isLoading={loading}
             >
-              Play
+              Next
             </Button>
           </Flex>
         </ModalBody>
@@ -102,4 +94,4 @@ const SetName = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
   );
 };
 
-export default SetName;
+export default JoinName;

@@ -56,7 +56,7 @@ const GetStarted = ({
               color="white"
               bg="#8FB01B"
               mt={8} 
-              onClick={() => onClose("join")}
+              onClick={() => onClose("join-name")}
             >
               Join a game
             </Button>
