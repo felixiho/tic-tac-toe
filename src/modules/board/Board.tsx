@@ -47,7 +47,7 @@ const Board = ({
     if (score) setScore(initialScore)
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (winner) {
       const styles = getBackgroundStyles();
       setBackgroundStyles(styles);

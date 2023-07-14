@@ -5,33 +5,23 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader, 
+  ModalHeader,
   ModalBody,
   Input,
   Image,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { PusherContext } from "./Pusher";
 
-const Waiting = ({
-  isOpen,
-  onClose, 
-}: {
-  isOpen: boolean;
-  onClose: any 
-}) => { 
-  const [playerName, setPlayerName] = useState("")
-  const playGame = () => {
-    if (playerName.length > 2){ 
-      onClose("board")
-    }
-  } 
+const Waiting = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
+  const [playerName, setPlayerName] = useState("");
+  const multi = useContext(PusherContext);
 
-  const closeModal = () => { 
-    onClose("start")
-  }
+ 
 
-
-
+  const closeModal = () => {
+    onClose("name");
+  };
 
   return (
     <Modal
@@ -50,9 +40,19 @@ const Waiting = ({
         </ModalHeader>
         <ModalBody>
           <Flex w="full" justifyContent={"center"} flexDir={"column"} px={4}>
-            <Text fontSize={"lg"} fontWeight={"semibold"} textAlign={"center"} my={16}>
+            <Text fontSize={"lg"} mt={4} textAlign={"center"}>
+              Copy Code <br />
+              <b>{multi?.code}</b>
+            </Text>
+
+            <Text
+              fontSize={"lg"}
+              fontWeight={"semibold"}
+              textAlign={"center"}
+              my={6}
+            >
               Waiting for player to join .........
-            </Text>  
+            </Text>
           </Flex>
         </ModalBody>
       </ModalContent>

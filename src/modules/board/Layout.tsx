@@ -37,7 +37,7 @@ const Layout = ({
     }
   }, [playerTurn]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const isValid = checkIfSuccess(board);
     if (isValid.player) {
       setWinner(isValid.player);

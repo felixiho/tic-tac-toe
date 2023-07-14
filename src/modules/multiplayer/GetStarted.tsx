@@ -67,7 +67,7 @@ const GetStarted = ({
               bg="#8FB01B" 
               mt={3}
               mb={12}
-              onClick={() => onClose("start")}
+              onClick={() => onClose("name")}
             >
               Start a game
             </Button>
