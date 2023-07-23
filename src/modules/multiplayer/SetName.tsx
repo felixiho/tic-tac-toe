@@ -1,6 +1,5 @@
 import Overlay from "@/components/Overlay";
-import { Flex, Text, Box } from "@chakra-ui/layout";
-import Pusher from "pusher-js";
+import { Flex, Text} from "@chakra-ui/layout"; 
 import {
   Button,
   Modal,
@@ -29,9 +28,10 @@ const SetName = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
       setLoading(true);
       const response = await registerPlayer(playerName);
       const token = response.data.token;
+      const user_id = response.data.user_id
       localStorage.setItem("tickToken", token);
       if (multi) {
-        const { pusher, setCode, setStartName } = multi;
+        const { pusher, setCode, setStartName, setStartId,  setChannel, setUserId } = multi;
         const codeResponse = await generateCode();
         const code = codeResponse.data.games.code as string;
         setCode(code);
@@ -41,11 +41,14 @@ const SetName = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
             alert("Code already used. Please start a new game");
             setLoading(false);
           } else {
+            setChannel(channel) 
             setStartName(playerName);
+            setStartId(user_id)
+            setUserId(user_id)
             setLoading(false);
             onClose("waiting");
           }
-        });
+        });  
       }
     }
   };

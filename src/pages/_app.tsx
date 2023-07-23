@@ -1,6 +1,6 @@
 import { useState, type ReactElement, type ReactNode } from "react";
 import type { NextPage } from "next";
-import Pusher from "pusher-js";
+import Pusher, { Channel } from "pusher-js";
 import theme from "@/config/chakra";
 import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
@@ -21,10 +21,6 @@ type AppPropsWithLayout = AppProps & {
 let pusher: Pusher;
 
 if (typeof window !== "undefined") {
-  // window.addEventListener("beforeunload", (e) => {
-  //   e.returnValue = "Are you sure you want to leave? You will lose your state";
-  // });
-
   if (process.env.NODE_ENV !== "production") {
     // Enable pusher logging - isn't included in production
     Pusher.logToConsole = true;
@@ -34,20 +30,20 @@ if (typeof window !== "undefined") {
     cluster: "mt1",
     forceTLS: false,
     channelAuthorization: {
-      endpoint: "http://localhost:5400/pusher/user-auth",
+      endpoint: process.env.PUSHER_AUTH_URL|| "http://localhost:5400/pusher/user-auth",
       transport: "ajax",
       params: {},
-      headers: {
+      headersProvider: () => ({
         Authorization: `Bearer ${localStorage.getItem("tickToken")}`,
-      },
+      }),
     },
     userAuthentication: {
-      endpoint: "http://localhost:5400/pusher/user-auth",
+      endpoint: process.env.PUSHER_AUTH_URL|| "http://localhost:5400/pusher/user-auth",
       transport: "ajax",
       params: {},
-      headers: {
+      headersProvider: () => ({
         Authorization: `Bearer ${localStorage.getItem("tickToken")}`,
-      },
+      }),
     },
   });
 }
@@ -56,6 +52,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const [code, setCode] = useState("");
   const [startName, setStartName] = useState("");
   const [joinName, setJoinName] = useState("");
+  const [startId, setStartId] = useState(0);
+  const [joinId, setJoinId] = useState(0);
+  const [userId, setUserId] = useState(0);
+
+  const [channel, setChannel] = useState<Channel>();
   return (
     <ChakraProvider theme={theme}>
       <PusherContext.Provider
@@ -67,6 +68,14 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           setStartName,
           joinName,
           setJoinName,
+          channel,
+          setChannel,
+          startId,
+          joinId,
+          setStartId,
+          setJoinId,
+          userId,
+          setUserId,
         }}
       >
         <Component {...pageProps} />

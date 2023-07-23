@@ -21,19 +21,32 @@ const JoinGame = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
 
   const playGame = async () => {
     if (playerCode.length > 5 && multi) {
-      const { setCode, setStartName, pusher } = multi;
+    setLoading(true);
+      const {
+        setCode,
+        setStartName,
+        pusher,
+        setChannel,
+        setStartId,
+        setUserId,
+      } = multi;
       const response = await joinGame(playerCode);
       setCode(playerCode);
       setStartName(response.data.startName.start);
+      setStartId(response.data.startName.startId);
       const channel = pusher.subscribe(`presence-${playerCode}`);
       channel.bind("pusher:subscription_succeeded", (members: any) => {
         if (members.count > 2) {
           alert("Code already used. Please start a new game");
           setLoading(false);
         } else {
+          setChannel(channel);
           setLoading(false);
-          console.log("joined game");
         }
+      });
+      channel.bind("user-joined", (data: any) => {
+        setUserId(data.user_id);
+        onClose("mulit-board");
       });
     }
   };
@@ -79,6 +92,7 @@ const JoinGame = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
               mt={6}
               mb={12}
               onClick={playGame}
+              isLoading={loading}
             >
               Play
             </Button>

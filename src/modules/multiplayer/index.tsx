@@ -1,11 +1,11 @@
-import Head from "next/head";
-import { useEffect, useState } from "react";
+ 
 import GetStarted from "@/modules/multiplayer/GetStarted";
 import StartGame from "./StartGame";
 import Waiting from "./Waiting";
 import JoinGame from "./JoinGame";
 import SetName from "./SetName";
-import JoinName from "./JoinName";
+import JoinName from "./JoinName"; 
+import Board from "./board/Board";
 
 
 const MultiPlayer = ({
@@ -24,6 +24,7 @@ const MultiPlayer = ({
       <JoinGame  isOpen={modal === "join"} onClose={setModal} />
       <JoinName  isOpen={modal === "join-name"} onClose={setModal} />
       <SetName  isOpen={modal === "name"} onClose={setModal} />
+      <Board  isOpen={modal === "mulit-board"} onClose={setModal} />
     </>
   );
 }

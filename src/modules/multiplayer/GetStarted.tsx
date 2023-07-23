@@ -18,12 +18,9 @@ const GetStarted = ({
 }: {
   isOpen: boolean;
   onClose: any 
-}) => { 
-  const [playerName, setPlayerName] = useState("")
-  
+}) => {  
 
-  const closeModal = () => {
-    setPlayerName("")
+  const closeModal = () => { 
     onClose("")
   }
 

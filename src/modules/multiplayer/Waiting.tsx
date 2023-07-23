@@ -10,14 +10,25 @@ import {
   Input,
   Image,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PusherContext } from "./Pusher";
 
-const Waiting = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
-  const [playerName, setPlayerName] = useState("");
+const Waiting = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => { 
   const multi = useContext(PusherContext);
 
- 
+  useEffect(() => {
+    const channel = multi?.channel; 
+    if (!channel) return;
+    
+    channel.bind("user-joined", (data: any) => {
+      console.log("user joined ooo", data);
+      multi.setJoinName(data.name)
+      multi.setJoinId(data.user_id)
+      onClose("mulit-board")
+    });
+
+
+  }, [multi]);
 
   const closeModal = () => {
     onClose("name");
