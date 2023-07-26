@@ -40,11 +40,13 @@ const JoinGame = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
           alert("Code already used. Please start a new game");
           setLoading(false);
         } else {
+          console.log({channel})
           setChannel(channel);
           setLoading(false);
         }
       });
       channel.bind("user-joined", (data: any) => {
+        console.log("userjoinedjoin level", data)
         setUserId(data.user_id);
         onClose("mulit-board");
       });
