@@ -25,12 +25,12 @@ if (typeof window !== "undefined") {
     // Enable pusher logging - isn't included in production
     Pusher.logToConsole = true;
   }
-  const pusherKey = process.env.PUSHER_KEY || "f36e58b2595918694280";
+  const pusherKey = process.env.NEXT_PUBLIC_PUSHER_KEY || "f36e58b2595918694280";
   pusher = new Pusher(pusherKey, {
     cluster: "mt1",
     forceTLS: false,
     channelAuthorization: {
-      endpoint: process.env.PUSHER_AUTH_URL|| "http://localhost:5400/pusher/user-auth",
+      endpoint: process.env.NEXT_PUBLIC_PUSHER_AUTH_URL|| "http://localhost:5400/pusher/user-auth",
       transport: "ajax",
       params: {},
       headersProvider: () => ({
@@ -38,7 +38,7 @@ if (typeof window !== "undefined") {
       }),
     },
     userAuthentication: {
-      endpoint: process.env.PUSHER_AUTH_URL|| "http://localhost:5400/pusher/user-auth",
+      endpoint: process.env.NEXT_PUBLIC_PUSHER_AUTH_URL|| "http://localhost:5400/pusher/user-auth",
       transport: "ajax",
       params: {},
       headersProvider: () => ({
