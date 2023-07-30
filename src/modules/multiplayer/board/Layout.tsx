@@ -29,13 +29,11 @@ const Layout = ({
     });
   }, [multi]);
 
-  useEffect(() => {
-    console.log("board updated");
+  useEffect(() => { 
     // if (!playerTurn) {
     const isValid = checkIfSuccess(board);
     if (isValid.player) {
-      setWinner(isValid.player);
-      console.log("useeffect check score here")
+      setWinner(isValid.player); 
       setScore((score: any) => ({
         ...score,
         [isValid.player]: score[isValid.player] + 1,

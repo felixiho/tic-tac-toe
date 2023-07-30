@@ -11,7 +11,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { PusherContext } from "./Pusher";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { joinGame } from "../api";
 
 const JoinGame = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
@@ -19,9 +19,21 @@ const JoinGame = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
   const [playerCode, setPlayerCode] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // useEffect(() => {
+  //   const channel = multi?.channel;
+  //   if (!channel) return;
+  //   const { setUserId } = multi;
+  //   console.log('ABOUT TO BIND')
+  //   channel.bind("user-joined", (data: any) => {
+  //     console.log("userjoinedjoin", data);
+  //     setUserId(data.user_id);
+  //     onClose("mulit-board");
+  //   });
+  // }, [multi]);
+
   const playGame = async () => {
     if (playerCode.length > 5 && multi) {
-    setLoading(true);
+      setLoading(true);
       const {
         setCode,
         setStartName,
@@ -29,6 +41,7 @@ const JoinGame = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
         setChannel,
         setStartId,
         setUserId,
+        setJoinId,
       } = multi;
       const response = await joinGame(playerCode);
       setCode(playerCode);
@@ -40,15 +53,12 @@ const JoinGame = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
           alert("Code already used. Please start a new game");
           setLoading(false);
         } else {
-          console.log({channel})
           setChannel(channel);
-          setLoading(false);
+          setUserId(response.data.startName.user_id);
+          setJoinId(response.data.startName.user_id)
+          setLoading(false); 
+          onClose("mulit-board");
         }
-      });
-      channel.bind("user-joined", (data: any) => {
-        console.log("userjoinedjoin level", data)
-        setUserId(data.user_id);
-        onClose("mulit-board");
       });
     }
   };

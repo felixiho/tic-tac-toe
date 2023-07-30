@@ -48,7 +48,7 @@ const Board = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
 
   useEffect(() => {
     if (!multi || !multi.channel) return;
-    const { joinName, startName, channel, startId, joinId, userId } = multi;
+    const { joinName, startName, channel, startId, joinId, userId } = multi; 
     setStartName(startName);
     setJoinName(joinName);
     setStartId(startId);
@@ -82,10 +82,7 @@ const Board = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
     const channel = multi.channel;
     channel.trigger("client-board-reset", {});
   };
-
-  useEffect(() => {
-    console.log({ playerTurn });
-  }, [playerTurn]);
+ 
 
   useEffect(() => {
     if (winner) {

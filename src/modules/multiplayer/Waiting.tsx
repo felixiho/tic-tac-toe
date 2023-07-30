@@ -20,8 +20,7 @@ const Waiting = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
     const channel = multi?.channel; 
     if (!channel) return;
     
-    channel.bind("user-joined", (data: any) => {
-      console.log("user joined ooo", data);
+    channel.bind("user-joined", (data: any) => { 
       multi.setJoinName(data.name)
       multi.setJoinId(data.user_id)
       onClose("mulit-board")
