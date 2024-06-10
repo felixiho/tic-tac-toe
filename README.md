@@ -2,6 +2,6 @@
 
 This is a real time multiplayer TIC TAC TOE GAME written in NEXT js. 
 
-npm run i 
+`yarn`
 
-npm run dev
+`yarn dev`
